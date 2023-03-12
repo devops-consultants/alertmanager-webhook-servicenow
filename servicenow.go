@@ -148,6 +148,8 @@ func (snClient *ServiceNowClient) doRequest(req *http.Request) ([]byte, error) {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
+
 	serviceNowRequests.WithLabelValues(req.URL.Host, req.Method, strconv.Itoa(resp.StatusCode)).Inc()
 	serviceNowLastRequest.SetToCurrentTime()
 
@@ -156,8 +158,6 @@ func (snClient *ServiceNowClient) doRequest(req *http.Request) ([]byte, error) {
 		log.Error(errorMsg)
 		return nil, errors.New(errorMsg)
 	}
-
-	defer resp.Body.Close()
 
 	responseBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
