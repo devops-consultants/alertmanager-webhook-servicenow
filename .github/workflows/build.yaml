@@ -23,7 +23,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: quay.io/devops_consultants/alertmanager-webhook-servicenow:latest,quay.io/devops_consultants/alertmanager-webhook-servicenow:${{ github.ref_name }}
           outputs: type=image,name=target
